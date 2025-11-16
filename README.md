@@ -53,16 +53,67 @@ O sistema foi desenvolvido para **vigilância fiscal e auditoria inteligente** d
 
 ```
 ECD/
-├── ECD.py                          # Aplicação principal Streamlit (2.762 linhas)
-├── ECD.json                        # Definições de queries Hue/Impala
-├── ECD.ipynb                       # Notebook Jupyter principal
-├── ECD-Exemplo.ipynb              # Notebook de exemplo
-├── ECD-NEW-Copy1.ipynb            # Versão alternativa
-├── ECD-NEW-Empresas (1).ipynb    # Análise de empresas
-├── ECD-PC (4).ipynb               # Análise de plano de contas
-├── ECD-PC-ML (4).ipynb            # Análise com ML
+├── src/                            # 🆕 Sistema de Produção Modular
+│   ├── classificacao/             # Pipeline de classificação híbrido
+│   ├── demonstracoes/             # Geradores de BP e DRE
+│   ├── indicadores/               # Calculadores de indicadores
+│   ├── validacao/                 # Validadores contábeis
+│   └── utils/                     # Utilitários
+├── main.py                         # 🆕 Pipeline principal de produção
+├── ECD.py                          # Aplicação Streamlit (2.762 linhas)
+├── notebooks/                      # Notebooks de análise (legado)
+│   ├── ECD.ipynb                  # Notebook principal
+│   ├── ECD-PC (4).ipynb           # Análise de plano de contas
+│   └── ECD-PC-ML (4).ipynb        # Análise com ML
+├── requirements.txt                # Dependências Python
+├── SISTEMA_PRODUCAO.md            # 🆕 Documentação técnica completa
 └── README.md                       # Este arquivo
 ```
+
+## 🆕 Sistema de Produção (Novo)
+
+Foi desenvolvido um **sistema modular de produção** para substituir os notebooks dispersos por uma arquitetura limpa e escalável:
+
+### Pipeline Completo de Classificação
+
+**Estratégia Híbrida em 3 Fases:**
+
+1. **Classificação por Regras (70-80% cobertura)**
+   - Baseada em natureza da conta + código hierárquico + palavras-chave
+   - Determinístico e auditável
+
+2. **Machine Learning (15-20% adicional)**
+   - TF-IDF + Random Forest
+   - Análise semântica de descrições
+   - Threshold de confiança configurável (70%)
+
+3. **Validação Cruzada**
+   - Valida Ativo = Passivo + PL
+   - Detecta inconsistências BP x DRE
+   - Relatórios de qualidade
+
+### Executar Sistema de Produção
+
+```bash
+# Pipeline completo (classificação + BP + DRE + indicadores)
+python main.py --modo producao
+
+# Processar ano específico
+python main.py --ano 2023
+
+# Sem ML (apenas regras)
+python main.py --no-ml
+```
+
+**Documentação completa:** [SISTEMA_PRODUCAO.md](SISTEMA_PRODUCAO.md)
+
+### Vantagens do Novo Sistema
+
+✅ **Modular**: Fácil manutenção e extensão
+✅ **Testável**: Separação clara de responsabilidades
+✅ **Confiável**: Validações em cada etapa
+✅ **Escalável**: Otimizado para grandes volumes
+✅ **Documentado**: Docstrings e type hints completos
 
 ## 🔧 Pré-requisitos
 
